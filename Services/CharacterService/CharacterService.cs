@@ -14,7 +14,9 @@ namespace dotnet_app.Services.CharacterService
         };
         private readonly IMapper _mapper;
 
-        public CharacterService(IMapper mapper)
+        private readonly DataContext _context;
+
+        public CharacterService(IMapper mapper, DataContext context)
         {
             _mapper = mapper;
             
@@ -55,7 +57,8 @@ namespace dotnet_app.Services.CharacterService
         public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
         {
             var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
-            serviceResponse.Data = characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
+            var dbCharacters = await _context.Characters.ToListAsync();
+            serviceResponse.Data = dbCharacters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
             return serviceResponse;
         }
         // Get By Id
