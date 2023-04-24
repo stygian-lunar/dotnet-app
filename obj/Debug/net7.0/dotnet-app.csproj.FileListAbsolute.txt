@@ -31,3 +31,5 @@ D:\dotnet-app\obj\Debug\net7.0\refint\dotnet-app.dll
 D:\dotnet-app\obj\Debug\net7.0\dotnet-app.pdb
 D:\dotnet-app\obj\Debug\net7.0\dotnet-app.genruntimeconfig.cache
 D:\dotnet-app\obj\Debug\net7.0\ref\dotnet-app.dll
+D:\dotnet-app\bin\Debug\net7.0\AutoMapper.dll
+D:\dotnet-app\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
