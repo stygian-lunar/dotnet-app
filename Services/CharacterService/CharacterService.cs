@@ -27,9 +27,10 @@ namespace dotnet_app.Services.CharacterService
         {   
             var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
             var character = _mapper.Map<Character>(newCharacter);
-            character.Id = characters.Max(c => c.Id) + 1;
-            characters.Add(character);
-            serviceResponse.Data = characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
+            // character.Id = _context.Characters.Max(c => c.Id) + 1;
+            _context.Characters.Add(character);
+            serviceResponse.Data = _context.Characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
+            _context.SaveChanges();
             return serviceResponse;
         }
         // Delete (DELETE)
@@ -39,13 +40,14 @@ namespace dotnet_app.Services.CharacterService
 
             try 
             {
-                var character = characters.FirstOrDefault(c => c.Id == id);
+                var character = _context.Characters.FirstOrDefault(c => c.Id == id);
                 if (character is null){
                     throw new Exception($"Character with Id '{id}' not found.");
                 }
-                characters.Remove(character);
+                _context.Characters.Remove(character);
+                _context.SaveChanges();
 
-                serviceResponse.Data = characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
+                serviceResponse.Data = _context.Characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
             }
             catch (Exception ex)
             {
@@ -77,7 +79,7 @@ namespace dotnet_app.Services.CharacterService
             var serviceResponse = new ServiceResponse<GetCharacterDto>();
             try 
             {
-                var character = characters.FirstOrDefault(c => c.Id == updatedCharacter.Id);
+                var character = _context.Characters.FirstOrDefault(c => c.Id == updatedCharacter.Id);
                 if (character is null){
                     throw new Exception($"Character with Id '{updatedCharacter.Id}' not found.");
                 }
@@ -88,8 +90,8 @@ namespace dotnet_app.Services.CharacterService
                 character.Defense = updatedCharacter.Defense;
                 character.Intelligence = updatedCharacter.Intelligence;
                 character.Class = updatedCharacter.Class;
-
                 serviceResponse.Data = _mapper.Map<GetCharacterDto>(character);
+                _context.SaveChanges();
             }
             catch (Exception ex)
             {
