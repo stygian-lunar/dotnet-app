@@ -14,5 +14,7 @@ namespace dotnet_app.Data
         }
         public DbSet<Character> Characters => Set<Character>();  
         
+        
     }
+    
 }
